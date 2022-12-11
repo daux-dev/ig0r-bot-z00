@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>z00_new</title>
+    <style>
+        body {
+            color: white;
+            background-color: #0068b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <%- include("navigation", {back: true}) %>
+        <h1><%= data.h1 %> event</h1>
+        <form action="/<%= data.h1%>" method="post" class="row g-3">
+            <div class="col-12">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" id="title" value="<%= data.title %>" required>
+            </div>
+            <div class="col-12">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="url" class="form-control" name="image" id="image" value="<%= data.image %>">
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <textarea class="form-control" name="desc" id="desc" rows="3"><%= data.desc %></textarea>
+            </div>
+            <div class="col-6">
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" value="<%= data.date %>" required>
+            </div>
+            <div class="col-6">
+                <label for="time">Time</label>
+                <input type="time" name="time" id="time" value="<%= data.time %>" required>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+                <button onclick="setStartTime('-')" type="button" class="col-2">-</button>
+                <span>1h</span>
+                <button onclick="setStartTime('+')" type="button" class="col-2">+</button>
+            </div>
+            <button class="w-100 btn btn-lg btn-light" type="submit">Submit</button>
+            <input type="hidden" name="id" value="<%= data.id %> ">
+        </form>
+    </div>
+
+    <script>
+        /* 1h+- controls for easy time switching */
+        function setStartTime(input) {
+            if (input === "+") {
+                const stval = document.querySelector("#time").value;
+                if (stval === "23:00") return; 
+                const newval = parseInt(stval.split(":")[0]) + 1;
+                document.querySelector("#time").value = (newval.toString().length <2 ? "0" : "") + newval + ":00";
+            } else if (input === "-") {
+                const stval = document.querySelector("#time").value;
+                if (stval === "00:00") return; 
+                const newval = parseInt(stval.split(":")[0]) - 1;
+                document.querySelector("#time").value = (newval.toString().length <2 ? "0" : "") + newval + ":00";
+            } else {
+                document.querySelector("#time").value = input;
+            }
+        }
+
+        /* Returns current date in YYYY-MM-DD format so the datepicker understands it as min-value*/
+        function today() {
+            const date  = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth().toString().length <2 ? "0"+(date.getMonth() + 1) : (date.getMonth() + 1);
+            const day = date.getDate().toString().length <2 ? "0"+date.getDate() : date.getDate();
+            const today = `${year}-${month}-${day}`;
+            return today;
+        }
+
+        /* Do not allow to set Date before today */
+        document.querySelector("#date").min = today();
+
+        /* Default datepicker to next Saturday if new event */
+        if (!document.querySelector("#date").value) {
+            document.querySelector("#date").value = dateFormat(nextDay(6));
+        }
+
+        /* Default timepicker to next 15:00 if new event */
+        if (!document.querySelector("#time").value) {
+            document.querySelector("#time").value = "15:00";
+        }
+
+        /* Returns date of next chosen weekday. Used above to get date of the next saturday. */
+        function nextDay(x) {
+            var now = new Date();    
+            now.setDate(now.getDate() + (x+(7-now.getDay())) % 7);
+            return now;
+        }
+
+        /* For formatting the output of nextDay() to my needs */
+        function dateFormat(date) {
+            const offset = date.getTimezoneOffset()
+            date = new Date(date.getTime() - (offset*60*1000))
+            return date.toISOString().split('T')[0]
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>attend_id</th>
+        <th>user_id</th>
+        <th>discord_id</th>
+        <th>name</th>
+        <th>dibs</th>
+    </tr>
+    <% attends.forEach(event => { %>
+        <tr>
+            <td><%= event.attend_id  %></td>
+            <td><%= event.user_id  %></td>
+            <td><%= event.discord_id  %></td>
+            <td><%= event.discord_name  %></td>
+            <td><%= event.discord_dibs  %></td>
+        </tr>            
+    <% }) %>
+</table>

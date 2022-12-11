@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>description</th>
+        <th>start</th>
+        <th>end</th>
+    </tr>
+    <% data.forEach(event => { %>
+        <form action="/update" method="post">
+            <tr>
+                <td><%= event.event_id  %></td>
+                <td><%= event.event_name  %></td>
+                <td><%= event.event_desc  %></td>
+                <td><%= new Date(event.start).toLocaleString("de-DE") %></td>
+                <td><%= new Date(event.end).toLocaleString("de-DE")  %></td>
+                <td><button type="submit" name="button" value="delete" onclick="return confirm('Sicher dass du event #<%= event.event_id %> löschen willst?');">❌</button></td>
+                <td><button type="submit" name="button" value="edit">📝</button></td>
+                <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            </tr>            
+        </form>
+    <% }) %>
+</table>

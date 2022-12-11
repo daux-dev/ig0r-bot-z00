@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>z00_new</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit event</h1>
+        <a href="/dashboard">BACK</a>
+        <form action="/edit" method="post" class="row g-3">
+            <div class="col-12">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" id="title" value="<%= data.name %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <textarea class="form-control" name="desc" id="desc" rows="3"><%= data.desc %></textarea>
+            </div>
+            <div class="col-6">
+                <label for="start_date">Start date</label>
+                <input type="date" name="start_date" id="start_date" onchange="setSameEndDate()" required>
+            </div>
+            <div class="col-6">
+                <label for="end_date">End date</label>
+                <input type="date" name="end_date" id="end_date" required>
+            </div>
+            <div class="col-6">
+                <label for="start_time">Start time</label>
+                <input type="time" name="start_time" id="start_time" value="15:00" required>
+            </div>
+            <div class="col-6">
+                <label for="end_time">End time</label>
+                <input type="time" name="end_time" id="end_time" value="23:55" required>
+            </div>
+            <div class="col-12">
+                <button onclick="setStartTime('-')" type="button" class="col-2">-</button>
+                <!-- <button onclick="setStartTime('15:00')" type="button">15:00</button> -->
+                <button onclick="setStartTime('+')" type="button" class="col-2">+</button>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+            <input type="hidden" name="id" value="<%= data.id %>">
+        </form>
+    </div>
+
+    <script>
+       function setStartTime(input) {
+            if (input === "+") {
+                const stval = document.querySelector("#start_time").value;
+                if (stval === "23:00") return; 
+                const newval = parseInt(stval.split(":")[0]) + 1;
+                document.querySelector("#start_time").value = (newval.toString().length <2 ? "0" : "") + newval + ":00";
+            } else if (input === "-") {
+                const stval = document.querySelector("#start_time").value;
+                if (stval === "00:00") return; 
+                const newval = parseInt(stval.split(":")[0]) - 1;
+                document.querySelector("#start_time").value = (newval.toString().length <2 ? "0" : "") + newval + ":00";
+            } else {
+                document.querySelector("#start_time").value = input;
+            }
+        }
+        function setSameEndDate() {
+            document.querySelector("#end_date").value = document.querySelector("#start_date").value;
+        }
+
+        function today() {
+            const date  = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth().toString().length <2 ? "0"+(date.getMonth() + 1) : (date.getMonth() + 1);
+            const day = date.getDay().toString().length <2 ? "0"+date.getDay() : date.getDay();
+            const today = `${year}-${month}-${day}`;
+            return today;
+        }
+        
+        document.querySelector("#start_date").min = today();
+        document.querySelector("#end_date").min = today();
+
+        const start = "<%= data.start %>";
+        const end = "<%= data.end %>";
+
+        const start_date = start.split("T")[0];
+        const end_date = end.split("T")[0]; 
+        const start_time = start.split("T")[1].split(":")[0] + ":" + start.split("T")[1].split(":")[1];
+        const end_time = end.split("T")[1].split(":")[0] + ":" + end.split("T")[1].split(":")[1]
+
+        document.querySelector("#start_date").value = start_date;
+        document.querySelector("#start_time").value = start_time;
+        document.querySelector("#end_date").value = end_date;
+        document.querySelector("#end_time").value = end_time;
+    </script>
+</body>
+</html>

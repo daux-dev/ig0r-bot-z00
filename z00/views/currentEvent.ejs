@@ -1,0 +1,53 @@
+<% if (current) { %>
+    <form action="/update" method="post">
+        <div class="col-12 mb-1">
+            <div class="row align-items-center rounded">
+                <div class="field col-1 id">#<%= current.event_id  %></div>
+                <div class="field col-4 name"><%= current.event_title  %></div>
+                <div class="field col-4">
+                    <div><%= current.event_date.replace(/-/g, ".") %>, <%= current.event_time %> </div>
+                </div>
+                <div class="field col-3">
+                    <button class="del" type="submit" name="button" value="delete" onclick="return confirm('Sicher dass du event #<%= current.event_id %> löschen willst?');">❌</button>
+                    <button class="edit" type="submit" name="button" value="edit">📝</button>
+                </div>
+            </div>
+            <input type="hidden" name="event_id" value="<%= current.event_id %>">
+        </div>
+    </form>
+    <h2 class="col-12">Attends</h2>
+    <% attends.forEach(attend => { %>
+        <form action="/update" method="post">
+            <div class="col-lg-8 col-12 mb-1 offset-lg-2">
+                <div class="row align-items-center justify-content-center rounded">
+                    <div class="field col-lg-3 col-4 discord_id"><%= attend.discord_id  %></div>
+                    <div class="field col-lg-3 col-4 name"><%= attend.discord_name  %></div>
+                    <div class="field col-lg-2 col-4 dibs"><%= attend.discord_dibs  %></div>
+                    <!-- <div class="field col-3">
+                        <div class=""><%= new Date(attend.start).toLocaleString("de-DE") %></div>
+                        <div class=""><%= new Date(attend.end).toLocaleString("de-DE")  %></div>
+                    </div> -->
+                    <!-- <div class="field col-4">
+                        <button class="del" type="submit" name="button" value="delete" onclick="return confirm('Sicher dass du event #<%= attend.event_id %> löschen willst?');">❌</button>
+                        <button class="edit" type="submit" name="button" value="edit">📝</button>
+                    </div> -->
+                </div>
+                <!-- <div class="col-12"><%= attend.event_desc  %></div> -->
+                <input type="hidden" name="event_id" value="<%= attend.event_id %>">
+            </div>
+        </form>
+    <% }) %>
+<% } %>
+
+<style>
+    .name {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .row {
+        background-color: aliceblue;
+    }
+</style>

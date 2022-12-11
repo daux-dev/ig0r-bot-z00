@@ -1,0 +1,31 @@
+<% events.forEach(event => { %>
+    <form action="/update" method="post">
+        <div class="col-12 mb-1">
+            <div class="row align-items-center rounded">
+                <div class="field col-1 id">#<%= event.event_id  %></div>
+                <div class="field col-4 name"><%= event.event_title  %></div>
+                <div class="field col-4">
+                    <div><%= event.event_date.replace(/-/g, ".") %>, <%= event.event_time %> </div>
+                </div>
+                <div class="field col-3">
+                    <button class="del" type="submit" name="button" value="delete" onclick="return confirm('Sicher dass du event #<%= event.event_id %> löschen willst?');">❌</button>
+                    <button class="edit" type="submit" name="button" value="edit">📝</button>
+                </div>
+            </div>
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+        </div>
+    </form>
+<% }) %>
+
+<style>
+    .name {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .row {
+        background-color: white;
+    }
+</style>
