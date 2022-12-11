@@ -1,7 +1,20 @@
-# IG0r-bot
+# ig0r
 [Discord](https://discord.com) BOT used to manage attendance for a local arcade gaming meetup.
 
-Events (meetups) are registered in a self hosted [Plone](https://plone.org/) CMS. Through IG0r users can register and show information about the next event with chat commands. For that to work IG0r sends requests to the Plone REST API.
+Consists of the bot itself (ig0r) and a web interface for managing events (z00). SQLite is used for storage.
+
+From the projects root directory:
+
+`node ig0r/deploy_commands.js` adds necessary commands to discord server.
+
+`node ig0r/ig0r_bot.js` launches the bot.
+
+`node z00/z00_web.js` launches web interface.
+
+Needs `BOT_TOKEN`, `CLIENT_ID` and `GUILD_ID` environment variables set.
+
+
+
 
 ### Main commands
 * **/dojo** 
