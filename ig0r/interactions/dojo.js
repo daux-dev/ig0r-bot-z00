@@ -81,7 +81,6 @@ const dojo = async (db) => { // 📄📄📄📄📄📄📄📄📄 displays al
                 {name: "Schlafplätze: " + leftover.length + "/" + possibleDibs.length + " frei", value: ifNotEmpty(takenDibsList.join(", "), ", ") + leftover.join(", "), inline: false}
             )
             .setFooter({text: "Geöffnet ab " + nextEvent.event_time + " Uhr am " + eventDateString});
-        // message.channel.send({ embeds: [dojoRes]});
         return dojoRes;
     } else {
         return noEventRes;
