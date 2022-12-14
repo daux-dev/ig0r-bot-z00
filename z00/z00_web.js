@@ -2,13 +2,15 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 
+require("dotenv").config();
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const func = require("./func.js");
 const auth = require("./auth.js");
 
 app.use(session({
-    secret: "secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
 }));
@@ -108,11 +110,6 @@ app.get("/all", auth.checkAuthenticated, async (req, res) => {
 
 app.post("/new", auth.checkAuthenticated, async (req, res) => {
     try {
-        console.log(req.body);
-        /* const deutschOffset = Math.abs(new Date().getTimezoneOffset()) / 60;
-        const startDeutsch = req.body.start_date + "T" + req.body.start_time + ":00+0" + deutschOffset + "00";
-        const endDeutsch = req.body.end_date + "T" + req.body.end_time + ":00+0" + deutschOffset + "00"; */
-
         const newEvent = {
             title: req.body.title,
             image: req.body.image,
@@ -132,11 +129,6 @@ app.post("/new", auth.checkAuthenticated, async (req, res) => {
 
 app.post("/edit", auth.checkAuthenticated, async (req, res) => {
     try {
-        console.log(req.body);
-        /* const deutschOffset = Math.abs(new Date().getTimezoneOffset()) / 60;
-        const startDeutsch = req.body.start_date + "T" + req.body.start_time + ":00+0" + deutschOffset + "00";
-        const endDeutsch = req.body.end_date + "T" + req.body.end_time + ":00+0" + deutschOffset + "00"; */
-
         const editEvent = {
             id: req.body.id,
             title: req.body.title,
