@@ -1,4 +1,4 @@
-const {MessageEmbed} = require("discord.js");
+const {EmbedBuilder} = require("discord.js");
 const func = require("../functions/func");
 const noEventRes = require("./noevent");
 
@@ -18,20 +18,20 @@ const undibs = async (db, userInfo) => {
             const res = await func.updateDibs(db, "", userAttendId);
 
             if (res) {
-                const botResponse = new MessageEmbed()
+                const botResponse = new EmbedBuilder()
                     .setColor("#e30511")
                     .addFields({name: "Dibs zurückgezogen", value: "**" + userInfo.name + "** macht **" + prevDibs[0].discord_dibs + "** wieder frei."});
                 return botResponse;
             }
             
         } else {
-            const botResponse = new MessageEmbed()
+            const botResponse = new EmbedBuilder()
                 .setColor("#e30511")
                 .addFields({name: "Keine dibs", value: "**" + userInfo.name + "** hat keine dibs."});
             return botResponse;
         } 
     } else if (nextEvent && !attending) {
-        const botResponse = new MessageEmbed()
+        const botResponse = new EmbedBuilder()
             .setColor("#e30511")
             .addFields({name: "Nicht angemeldet", value: "**" + userInfo.name + "** wie wärs mit **`/attend`** ?"});
         return botResponse;

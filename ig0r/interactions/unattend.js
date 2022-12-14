@@ -1,4 +1,4 @@
-const {MessageEmbed} = require("discord.js");
+const {EmbedBuilder} = require("discord.js");
 const func = require("../functions/func");
 const noEventRes = require("./noevent");
 
@@ -12,13 +12,13 @@ const unattend = async (db, userInfo) => { // ❌❌❌❌❌❌❌❌❌ unregi
             const res = await func.deleteAttend(db, userAttendId);
             console.log(res);
             if (res) {
-                const botResponse = new MessageEmbed()
+                const botResponse = new EmbedBuilder()
                     .setColor("#e30511")
                     .addFields({name: "Abmeldung", value: "Schade **" + userInfo.name + "**."});
                 return botResponse;    
             }
         } else { //❌user is not attending and therefore cannot unregister
-            const botResponse = new MessageEmbed()
+            const botResponse = new EmbedBuilder()
                 .setColor("#e30511")
                 .addFields({name: "Nicht angemeldet", value: "**" + userInfo.name + "** wie wärs mit **`/attend`** ?"});
             return botResponse;
