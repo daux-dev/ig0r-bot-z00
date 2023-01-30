@@ -1,6 +1,6 @@
-const {MessageEmbed} = require("discord.js");
+const {EmbedBuilder} = require("discord.js");
 
-const noEventRes = new MessageEmbed()
+const noEventRes = new EmbedBuilder()
     .setColor("#e30511")
     .setTitle("Events / Termine")
     .setDescription("Keine Termine eingetragen.");

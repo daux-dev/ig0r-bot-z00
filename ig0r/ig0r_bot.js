@@ -1,4 +1,4 @@
-const {Client, Intents} = require("discord.js");
+const {Client, GatewayIntentBits, InteractionType} = require("discord.js");
 require("dotenv").config();
 
 const func = require("./functions/func");
@@ -9,15 +9,11 @@ const undibs = require("./interactions/undibs");
 const events = require("./interactions/events");
 const links = require("./interactions/links");
 
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]});
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]});
 
 client.on("ready", async () => {
     try {
         console.log("ig0r_sql is ready. :))))))))))))");
-        // console.log("2022-07-10T14:00:00+0200");
-        // const testtime = new Date("2022-07-10T14:00:00+0200")
-        // console.log(testtime);
-        // console.log(testtime.toLocaleString("de-DE"));
     } catch (error) {
         console.log(error);
     }
@@ -26,8 +22,7 @@ client.on("ready", async () => {
 client.on('interactionCreate', async interaction => {
     console.time("interaction");
     try {
-        if (!interaction.isCommand()) return;
-        // if (interaction.user.id == 701820453022597271n) return console.log("BANNED USER ID"); //user id 701820453022597271 is banned from bot use
+        if (interaction.type != InteractionType.ApplicationCommand) return;
         await interaction.deferReply();
         console.timeLog("interaction");
 
