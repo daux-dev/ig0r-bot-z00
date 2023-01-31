@@ -95,6 +95,7 @@ const getApiEvents = async (db) => {
         return await db.all(`
             SELECT 
             events.event_title,
+            events.event_desc,
             events.event_image,
             events.event_date,
             events.event_time
