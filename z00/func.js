@@ -27,14 +27,14 @@ const getUser = async (username) => {
     }
 }
 
-/* const getNextEvent = async (db) => {
+const getNextEvent = async (db) => {
     try {
-        return await db.get("SELECT * FROM events WHERE end > date('now') ORDER BY end");
+        return await db.get("SELECT * FROM events WHERE event_date >= date('now') ORDER BY event_date");
     } catch (error) {
         console.log(error);
         return false;
     }
-} */
+}
 
 const getEventById = async (id) => {
     try {
@@ -84,6 +84,21 @@ const getComingEvents = async (db) => {
     try {
         return await db.all(`
             SELECT * FROM events WHERE event_date >= date('now') ORDER BY event_date
+        `);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getApiEvents = async (db) => {
+    try {
+        return await db.all(`
+            SELECT 
+            events.event_title,
+            events.event_image,
+            events.event_date,
+            events.event_time
+            FROM events WHERE event_date >= date('now') ORDER BY event_date
         `);
     } catch (error) {
         console.log(error);
@@ -144,11 +159,12 @@ const deleteEvent = async (eventId) => {
 module.exports = {
     dbOpen,
     getUser,
-    /* getNextEvent, */
+    getNextEvent,
     getEventById,
     getAllEvents,
     getNextAttends,
     getComingEvents,
+    getApiEvents,
     createEvent,
     editEvent,
     deleteEvent

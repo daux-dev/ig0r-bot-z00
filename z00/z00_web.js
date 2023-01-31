@@ -108,6 +108,28 @@ app.get("/all", auth.checkAuthenticated, async (req, res) => {
     }
 })
 
+app.get("/api/next", async (req, res) => {
+    try {
+        const db = await func.dbOpen();
+        const events = await func.getApiEvents(db);
+        const attends = await func.getNextAttends(db);
+
+        const eventsImg = events.map(e => {
+            if (!e.event_image) {
+                e.event_image = "http://ig0r.insertgame.de/sanwa.jpg";
+                return e;
+            }
+        });
+
+        eventsImg[0].event_attendees = attends.length;
+
+        await res.send(events);
+        await db.close();
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 app.post("/new", auth.checkAuthenticated, async (req, res) => {
     try {
         const newEvent = {
@@ -175,5 +197,5 @@ app.post("/login", passport.authenticate('local', {
  });
 
 app.listen(8000, () => {
-    console.log("START <z00 v0.2> PORT:8000");
+    console.log("START <z00 v0.3> PORT:8000");
 });
