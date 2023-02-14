@@ -139,6 +139,7 @@ app.get("/api", async (req, res) => {
             const event = await func.getEventById(id);
             const attends = await func.getAttendsById(id);
             event ? event.event_attendees = attends : null;
+            event.event_image ? null : event.event_image = "https://z00.insertgame.de/img/default.jpg";
             res.send(event);
         } else {
             res.send("");
