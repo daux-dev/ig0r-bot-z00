@@ -108,7 +108,7 @@ app.get("/all", auth.checkAuthenticated, async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-})
+});
 
 app.get("/api/next", async (req, res) => {
     try {
@@ -127,6 +127,22 @@ app.get("/api/next", async (req, res) => {
 
         await res.send(events);
         await db.close();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+app.get("/api", async (req, res) => {
+    try {
+        if(req.query.event_id){
+            const id = req.query.event_id;
+            const event = await func.getEventById(id);
+            const attends = await func.getAttendsById(id);
+            event ? event.event_attendees = attends : null;
+            res.send(event);
+        } else {
+            res.send("");
+        }
     } catch (error) {
         console.log(error);
     }

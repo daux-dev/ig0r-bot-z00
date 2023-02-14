@@ -40,11 +40,43 @@ const getEventById = async (id) => {
     try {
         const db = await dbOpen();
         const result = await db.get("SELECT * FROM events WHERE event_id = ?", [id]);
-        result ? await db.close() : console.log("error");
+        if (result) {
+            await db.close();
+        } else {
+            await db.close();
+            console.log("error getEventById id=" + id);
+        }
         return result;
     } catch (error) {
         console.log(error);
         return false;
+    }
+}
+
+const getAttendsById = async (id) => {
+    try {
+        const db = await dbOpen();
+        const result = await db.all(`
+            SELECT 
+            attends.attend_id,
+            users.user_id,
+            users.discord_id,
+            attends.discord_name,
+            attends.discord_dibs
+            FROM events 
+            INNER JOIN attends ON events.event_id = attends.event_id
+            INNER JOIN users ON attends.user_id = users.user_id 
+            WHERE events.event_id = ?
+        `, [id]);
+        if (result) {
+            await db.close();
+        } else {
+            await db.close();
+            console.log("error getAttendsById id=" + id);
+        }
+        return result;
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -94,6 +126,7 @@ const getApiEvents = async (db) => {
     try {
         return await db.all(`
             SELECT 
+            events.event_id,
             events.event_title,
             events.event_desc,
             events.event_image,
@@ -162,6 +195,7 @@ module.exports = {
     getUser,
     getNextEvent,
     getEventById,
+    getAttendsById,
     getAllEvents,
     getNextAttends,
     getComingEvents,
