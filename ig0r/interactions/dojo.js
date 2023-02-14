@@ -71,10 +71,10 @@ const dojo = async (db) => { // 📄📄📄📄📄📄📄📄📄 displays al
 
         const dojoRes = new EmbedBuilder()
             .setColor("#0068b3")
-            .setAuthor({name: "Insertgame", iconURL: "http://ig0r.insertgame.de/iglogo.png", url: "https://twitter.com/Insertgamedojo"})
-            .setThumbnail(func.isValidHttpUrl(nextEvent.event_image) ? nextEvent.event_image : "http://ig0r.insertgame.de/sanwa.jpg")
+            .setAuthor({name: "Insertgame", iconURL: "https://z00.insertgame.de/img/iglogo.png", url: "https://twitter.com/Insertgamedojo"})
+            .setThumbnail(func.isValidHttpUrl(nextEvent.event_image) ? nextEvent.event_image : "https://z00.insertgame.de/img/default.jpg")
             .setTitle(nextEvent.event_title + "")
-            .setURL("http://www.insertgame.de")
+            .setURL("https://www.insertgame.de")
             .setDescription(nextEvent.event_desc.length > 0 ? nextEvent.event_desc : "Keine Beschreibung :angry:")
             .addFields(
                 {name: "Anmeldungen: " + nextAttends.length, value: ifEmpty(attList, "Noch keiner."), inline: false},

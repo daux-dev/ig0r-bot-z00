@@ -33,6 +33,8 @@ passport.deserializeUser((userObj, done) => {
     done (null, userObj )
 });
 
+app.use(express.static("./public"));
+
 app.get("/", auth.checkLoggedIn, async (req, res) => {
     try {
         res.render("login");
@@ -116,7 +118,7 @@ app.get("/api/next", async (req, res) => {
 
         const eventsImg = events.map(e => {
             if (!e.event_image) {
-                e.event_image = "http://ig0r.insertgame.de/sanwa.jpg";
+                e.event_image = "https://z00.insertgame.de/img/default.jpg";
                 return e;
             }
         });
