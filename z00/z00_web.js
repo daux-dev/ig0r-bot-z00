@@ -116,16 +116,19 @@ app.get("/api/next", async (req, res) => {
         const events = await func.getApiEvents(db);
         const attends = await func.getNextAttends(db);
 
+        //replace empty event_image string with default image link
         const eventsImg = events.map(e => {
             if (!e.event_image) {
                 e.event_image = "https://z00.insertgame.de/img/default.jpg";
                 return e;
+            } else {
+                return e;
             }
         });
-
+        //add attendance number for current event
         eventsImg[0].event_attendees = attends.length;
 
-        await res.send(events);
+        await res.send(eventsImg);
         await db.close();
     } catch (error) {
         console.log(error);
